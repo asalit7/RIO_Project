@@ -110,6 +110,7 @@ full_df['Time.Left']
 roster = json_normalize(full_df['run.roster'])
 print(roster[0])
 
+parties = {}
 for character in roster:
     character_list = roster[character]
     # now I want to store each character in each 5 columns of different party members
