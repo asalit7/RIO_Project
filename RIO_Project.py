@@ -108,11 +108,13 @@ full_df['Time.Left']
 
 
 roster = json_normalize(full_df['run.roster'])
-print(roster[0])
-
+print(roster[0][0])
 parties = {}
-for character in roster:
-    character_list = roster[character]
+roster_num=0
+for character in roster.iterrows():
+    parties[roster_num] = character
+    roster_num+=1
+print(parties)
     # now I want to store each character in each 5 columns of different party members
     
 
@@ -120,9 +122,6 @@ for character in roster:
 #df = full_df
 #engine = create_engine("mysql+pymysql://root:Gulfstream2019!@localhost:3306/native_db", echo=False)
 #df.to_sql('MDungeons', con=engine, index=False, if_exists='replace')
-
-
-#json_normalize(full_df['Roster'])[0][0].keys()
 
 
 #character.name, character.class.name, character.race.name
