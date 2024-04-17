@@ -107,11 +107,13 @@ full_df['Time.Left'] = round(full_df['Time.Left'].dt.seconds / 60, 2)
 full_df['Time.Left']
 
 
-full_df[full_df['Dungeon'] == 'Waycrest Manor']
+roster = json_normalize(full_df['run.roster'])
+print(roster[0])
 
-full_df['run.roster'][0]
-
-
+for character in roster:
+    character_list = roster[character]
+    # now I want to store each character in each 5 columns of different party members
+    
 
 
 #df = full_df
