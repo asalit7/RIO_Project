@@ -114,19 +114,34 @@ parties = {}
 for index, party in roster.iterrows():
     row_list = party.tolist()
     parties[index] = row_list
+
+traits_needed = ['role', 
+                 'character.name', 
+                 'character.class.name', 
+                 'character.race.name', 
+                 'character.race.faction', 
+                 'character.spec.name', 
+                 'character.realm.name',
+                 'character.region.short_name' 
+                 ]
+
+for party in parties.values():
+    for character_data in party:
+        for key, value in character_data.items():
+            print(value)
+            if key in traits_needed:
+                if key == 'role':
+                    roles.append(value)
+                elif key == 'character.name':
+                    names.append(value)
+                elif key == 'character.class.name':
+                    class_names.append(value)
+
 print(parties)
 # scaling roster[1][0] -> [4][0]
 # need to store each party into 1 cell? or within a row to match the run
 # 
 #{ 'role': 'dps', 'character.id': 150158626, 'character.persona_id': 41334465, 'character.name': 'Dragondik',  'character.class.name': 'Evoker', 'character.race.name': 'Dracthyr', 'character.race.faction': 'horde', 'character.spec.name': 'Augmentation', 'character.realm.name': 'Kazzak','character.region.short_name': 'EU', 
-parties = {}
-roster_num=0
-
-for character in roster.iterrows():
-    print(character)
-    parties[roster_num] = character
-    roster_num+=1
-
 
 
 
@@ -156,5 +171,3 @@ for character in roster.iterrows():
 
 #print(team)
  #   characters.append(roster)
-
-
