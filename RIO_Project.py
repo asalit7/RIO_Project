@@ -57,8 +57,7 @@ drop_col = ['run.keystone_team_id','run.dungeon.type','run.keystone_time_ms','ru
 
 # dropping columns in the list
 full_df = full_df.drop(drop_col, axis=1)
-print(full_df.columns)
-
+full_df.head()
 
 
 # Cleaning columns names
@@ -109,14 +108,27 @@ full_df['Time.Left']
 
 roster = json_normalize(full_df['run.roster'])
 print(roster[0][0])
+print(roster[2][0])
+
+parties = {}
+for index, party in roster.iterrows():
+    row_list = party.tolist()
+    parties[index] = row_list
+print(parties)
+# scaling roster[1][0] -> [4][0]
+# need to store each party into 1 cell? or within a row to match the run
+# 
+#{ 'role': 'dps', 'character.id': 150158626, 'character.persona_id': 41334465, 'character.name': 'Dragondik',  'character.class.name': 'Evoker', 'character.race.name': 'Dracthyr', 'character.race.faction': 'horde', 'character.spec.name': 'Augmentation', 'character.realm.name': 'Kazzak','character.region.short_name': 'EU', 
 parties = {}
 roster_num=0
+
 for character in roster.iterrows():
+    print(character)
     parties[roster_num] = character
     roster_num+=1
-print(parties)
-    # now I want to store each character in each 5 columns of different party members
-    
+
+
+
 
 
 #df = full_df
