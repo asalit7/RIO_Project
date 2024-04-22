@@ -7,6 +7,10 @@ import uuid
 import ast
 from sqlalchemy import create_engine
 
+def first_value(lst):
+    return lst[0]
+
+
 # creating a list of the different pages of dungeons to use in the api
 s3_dungeons = ['everbloom','ataldazar','black-rook-hold','doti-galakronds-fall','doti-murozonds-rise','darkheart-thicket','throne-of-the-tides','waycrest-manor']
 
@@ -147,11 +151,11 @@ for party in parties.values():
                     party_names.append(value)
                 elif key == 'character.class.name':
                     party_class_names.append(value)
-                elif key == 'race':
+                elif key == 'character.race.name':
                     party_races.append(value)
-                elif key == 'spec':
+                elif key == 'character.spec.name':
                     party_specs.append(value)
-                elif key == 'region':
+                elif key == 'character.region.short_name':
                     party_regions.append(value)
 
     # Append the lists for this party to the main lists
@@ -162,12 +166,16 @@ for party in parties.values():
     spec.append(party_specs)
     region.append(party_regions)
 
-print(roles)
-# scaling roster[1][0] -> [4][0]
-# need to store each party into 1 cell? or within a row to match the run
-# 
-#{ 'role': 'dps', 'character.id': 150158626, 'character.persona_id': 41334465, 'character.name': 'Dragondik',  'character.class.name': 'Evoker', 'character.race.name': 'Dracthyr', 'character.race.faction': 'horde', 'character.spec.name': 'Augmentation', 'character.realm.name': 'Kazzak','character.region.short_name': 'EU', 
 
+full_df['roles'] = roles
+full_df['names'] = names
+full_df['class_name'] = class_name
+full_df['race'] = race 
+full_df['spec'] = spec
+full_df['region'] = region
+full_df['region'] = full_df['region'].apply(first_value)
+full_df = full_df.drop(columns=['run.roster'])
+full_df.head()
 
 
 
@@ -175,24 +183,3 @@ print(roles)
 #engine = create_engine("mysql+pymysql://root:Gulfstream2019!@localhost:3306/native_db", echo=False)
 #df.to_sql('MDungeons', con=engine, index=False, if_exists='replace')
 
-
-#character.name, character.class.name, character.race.name
-#team = []
-
-
-#r_df = pd.json_normalize(full_df['Roster'])
-#r_df.head()
-#r_df.shape
-#r_df[4][2]
-#for roster in range(0,r_df.shape[0]):
- #   char1 = r_df[0][roster]['character.name']
-  #  char2 = r_df[1][roster]['character.name']
-   # char3 = r_df[2][roster]['character.name']
-    #char4 = r_df[3][roster]['character.name']
-    #char5 = r_df[4][roster]['character.name']
-    #curr_team = ', '.join([char1,char2,char3,char4,char5])
-    #team.append((curr_team))
-
-
-#print(team)
- #   characters.append(roster)
