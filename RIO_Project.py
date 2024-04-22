@@ -119,25 +119,50 @@ traits_needed = ['role',
                  'character.name', 
                  'character.class.name', 
                  'character.race.name', 
-                 'character.race.faction', 
                  'character.spec.name', 
-                 'character.realm.name',
                  'character.region.short_name' 
                  ]
 
+roles = []
+names = []
+class_name = []
+race = []
+spec = []
+region = []
+
+
 for party in parties.values():
+    party_roles = []
+    party_names = []
+    party_class_names = []
+    party_races = []
+    party_specs = []
+    party_regions = []
     for character_data in party:
         for key, value in character_data.items():
-            print(value)
             if key in traits_needed:
                 if key == 'role':
-                    roles.append(value)
+                    party_roles.append(value)
                 elif key == 'character.name':
-                    names.append(value)
+                    party_names.append(value)
                 elif key == 'character.class.name':
-                    class_names.append(value)
+                    party_class_names.append(value)
+                elif key == 'race':
+                    party_races.append(value)
+                elif key == 'spec':
+                    party_specs.append(value)
+                elif key == 'region':
+                    party_regions.append(value)
 
-print(parties)
+    # Append the lists for this party to the main lists
+    roles.append(party_roles)
+    names.append(party_names)
+    class_name.append(party_class_names)
+    race.append(party_races)
+    spec.append(party_specs)
+    region.append(party_regions)
+
+print(roles)
 # scaling roster[1][0] -> [4][0]
 # need to store each party into 1 cell? or within a row to match the run
 # 
