@@ -12,7 +12,7 @@ def first_value(lst):
 
 
 # creating a list of the different pages of dungeons to use in the api
-s3_dungeons = ['everbloom','ataldazar','black-rook-hold','doti-galakronds-fall','doti-murozonds-rise','darkheart-thicket','throne-of-the-tides','waycrest-manor']
+s3_dungeons = ['algethar-academy','brackenhide-hollow','halls-of-infusion','neltharus','ruby-life-pools','the-azure-vault','the-nokhud-offensive','uldaman-legacy-of-tyr']
 
 # blank list to enter each api into based on their dungeon parameter
 dungeons = []
@@ -21,7 +21,7 @@ base_url = 'https://raider.io/api/v1/mythic-plus/runs'
 # iterating through each dungeon in the s3_dungeons list to extrach the apis
 for dungeon in s3_dungeons:
     # requesting api and inserting the current dungeon in the loop
-    response = requests.get('https://raider.io/api/v1/mythic-plus/runs?season=season-df-3&region=world&dungeon={}&page=0'.format(dungeon))
+    response = requests.get('https://raider.io/api/v1/mythic-plus/runs?season=season-df-4&region=world&dungeon={}&page=0'.format(dungeon))
    
     # checking to see that the api was successfully extracted
     if response.status_code == 200:
@@ -57,7 +57,31 @@ for dungeon in range(0,len(s3_dungeons)):
 
 # come back to 'run.roster' and 'run.weekly_modifiers'
 # list of column names I want to drop
-drop_col = ['run.keystone_team_id','run.dungeon.type','run.keystone_time_ms','run.logged_run_id','run.keystone_platoon_id','run.dungeon.id','run.dungeon.short_name','run.dungeon.expansion_id','run.status','run.videos','run.num_modifiers_active','run.faction','run.deleted_at','run.dungeon.num_bosses','run.dungeon.group_finder_activity_ids','run.platoon', 'run.dungeon.patch','run.dungeon.icon_url','run.dungeon.slug']
+drop_col = ['run.keystone_team_id',
+            'run.dungeon.type',
+            'run.keystone_time_ms',
+            'run.logged_run_id',
+            'run.keystone_platoon_id',
+            'run.dungeon.id',
+            'run.dungeon.short_name',
+            'run.dungeon.expansion_id',
+            'run.status','run.videos',
+            'run.num_modifiers_active',
+            'run.faction',
+            'run.deleted_at',
+            'run.dungeon.num_bosses',
+            'run.dungeon.group_finder_activity_ids',
+            'run.platoon', 
+            'run.dungeon.patch',
+            'run.dungeon.icon_url',
+            'run.dungeon.slug',
+            'run.platoon.name',
+            'run.platoon.slug',
+            'run.platoon.short_name',
+            'run.platoon.logo',
+            'run.platoon.id',
+            'run.dungeon.wowInstanceId',
+            'run.dungeon.map_challenge_mode_id']
 
 # dropping columns in the list
 full_df = full_df.drop(drop_col, axis=1)
