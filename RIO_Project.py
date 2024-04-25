@@ -135,8 +135,6 @@ full_df['Time.Left']
 
 
 roster = json_normalize(full_df['run.roster'])
-print(roster[0][0])
-print(roster[2][0])
 
 parties = {}
 for index, party in roster.iterrows():
@@ -201,6 +199,25 @@ full_df['region'] = full_df['region'].apply(first_value)
 full_df = full_df.drop(columns=['run.roster'])
 full_df.head()
 
+affix_list = {}
+
+affixes = json_normalize(full_df['Affixes'])
+for index, affix in affixes.iterrows():
+    row_list = affix.tolist()
+    affix_list[index] = row_list
+
+current_affixes = []
+for affix in affix_list[0]:
+    for each_affix in affix.keys():
+        if affix[each_affix] == affix['name']:
+            current_affixes.append(affix['name'])
+
+affix_data = [{'affix':current_affixes}]*len(full_df)
+affix_df = pd.DataFrame(affix_data)
+full_df.reset_index(drop=True, inplace=True)
+full_df = pd.concat([full_df, affix_df], axis=1)
+full_df = full_df.drop(columns=['Affixes'])
+full_df.head()
 
 
 #df = full_df
