@@ -75,11 +75,6 @@ drop_col = ['run.keystone_team_id',
             'run.dungeon.patch',
             'run.dungeon.icon_url',
             'run.dungeon.slug',
-            'run.platoon.name',
-            'run.platoon.slug',
-            'run.platoon.short_name',
-            'run.platoon.logo',
-            'run.platoon.id',
             'run.dungeon.wowInstanceId',
             'run.dungeon.map_challenge_mode_id']
 
@@ -205,6 +200,8 @@ affixes = json_normalize(full_df['Affixes'])
 for index, affix in affixes.iterrows():
     row_list = affix.tolist()
     affix_list[index] = row_list
+
+print(affixes)
 
 current_affixes = []
 for affix in affix_list[0]:
