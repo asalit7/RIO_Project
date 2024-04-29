@@ -152,13 +152,15 @@ spec = []
 region = []
 
 
+
+
+party_roles = []
+party_names = []
+party_class_names = []
+party_races = []
+party_specs = []
+party_regions = []
 for party in parties.values():
-    party_roles = []
-    party_names = []
-    party_class_names = []
-    party_races = []
-    party_specs = []
-    party_regions = []
     for character_data in party:
         for key, value in character_data.items():
             if key in traits_needed:
@@ -175,24 +177,11 @@ for party in parties.values():
                 elif key == 'character.region.short_name':
                     party_regions.append(value)
 
-    # Append the lists for this party to the main lists
-    roles.append(party_roles)
-    names.append(party_names)
-    class_name.append(party_class_names)
-    race.append(party_races)
-    spec.append(party_specs)
-    region.append(party_regions)
+# creating a separate df for all the characters in the dungeon runs
+party_df = pd.DataFrame({'Role':party_roles,'Character.Name':party_names,'Class':party_class_names,'Race':party_races,'Specialization': party_specs,'Region': party_regions})
+party_df.head()
 
-
-full_df['roles'] = roles
-full_df['names'] = names
-full_df['class_name'] = class_name
-full_df['race'] = race 
-full_df['spec'] = spec
-full_df['region'] = region
-full_df['region'] = full_df['region'].apply(first_value)
 full_df = full_df.drop(columns=['run.roster'])
-full_df.head()
 
 affix_list = {}
 
@@ -201,7 +190,6 @@ for index, affix in affixes.iterrows():
     row_list = affix.tolist()
     affix_list[index] = row_list
 
-print(affixes)
 
 current_affixes = []
 for affix in affix_list[0]:
@@ -209,15 +197,12 @@ for affix in affix_list[0]:
         if affix[each_affix] == affix['name']:
             current_affixes.append(affix['name'])
 
-affix_data = [{'affix':current_affixes}]*len(full_df)
-affix_df = pd.DataFrame(affix_data)
-full_df.reset_index(drop=True, inplace=True)
-full_df = pd.concat([full_df, affix_df], axis=1)
-full_df = full_df.drop(columns=['Affixes'])
-full_df.head()
+current_affixes
 
+#affix_data = [{'affix':current_affixes}]*len(full_df)
+affix_df = pd.DataFrame(current_affixes).T
+affix_df.head()
 
-#df = full_df
-#engine = create_engine("mysql+pymysql://root:Gulfstream2019!@localhost:3306/native_db", echo=False)
-#df.to_sql('MDungeons', con=engine, index=False, if_exists='replace')
+# Instead of adding affix list to main df, create a separate table in sql to be able to access based on the week
+# Create a week id, team id, and dungeon id to be able to match all 3 when querying 
 
