@@ -6,6 +6,8 @@ import seaborn as sns
 import uuid
 import ast
 from sqlalchemy import create_engine
+import random
+
 
 def first_value(lst):
     return lst[0]
@@ -128,6 +130,8 @@ full_df['Time.Left'] = pd.to_timedelta(full_df['Time.Left'], unit='ms')
 full_df['Time.Left'] = round(full_df['Time.Left'].dt.seconds / 60, 2)
 full_df['Time.Left']
 
+full_df['Weekly.ID'] = random.randint(1, 1000)
+
 
 roster = json_normalize(full_df['run.roster'])
 
@@ -175,16 +179,9 @@ for idx,party in enumerate(parties.values()):
 print(party_keyid)
 # creating a separate df for all the characters in the dungeon runs
 party_df = pd.DataFrame({'Role':party_roles,'Character.Name':party_names,'Class':party_class_names,'Race':party_races,'Specialization': party_specs,'Region': party_regions,'Key.Run.ID':party_keyid})
-party_df.head()
-
-for row in full_df['Key.Run.ID']:
-    for row in 
-
-
-party_df['Key.Run.ID'] = full_df['Key.Run.ID']
 
 full_df = full_df.drop(columns=['run.roster'])
-full_df.head()
+
 
 affix_list = {}
 
@@ -205,6 +202,7 @@ current_affixes
 
 #affix_data = [{'affix':current_affixes}]*len(full_df)
 affix_df = pd.DataFrame(current_affixes).T
+affix_df['Weekly.ID'] = full_df['Weekly.ID'].iloc[0]
 affix_df.head()
 
 # Instead of adding affix list to main df, create a separate table in sql to be able to access based on the week
