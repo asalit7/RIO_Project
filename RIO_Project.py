@@ -136,6 +136,7 @@ for index, party in roster.iterrows():
     row_list = party.tolist()
     parties[index] = row_list
 
+
 traits_needed = ['role', 
                  'character.name', 
                  'character.class.name', 
@@ -143,14 +144,6 @@ traits_needed = ['role',
                  'character.spec.name', 
                  'character.region.short_name' 
                  ]
-
-roles = []
-names = []
-class_name = []
-race = []
-spec = []
-region = []
-
 
 
 
@@ -160,7 +153,8 @@ party_class_names = []
 party_races = []
 party_specs = []
 party_regions = []
-for party in parties.values():
+party_keyid = []
+for idx,party in enumerate(parties.values()):
     for character_data in party:
         for key, value in character_data.items():
             if key in traits_needed:
@@ -176,12 +170,21 @@ for party in parties.values():
                     party_specs.append(value)
                 elif key == 'character.region.short_name':
                     party_regions.append(value)
+        party_keyid.append(full_df['Key.Run.ID'].iloc[idx])
 
+print(party_keyid)
 # creating a separate df for all the characters in the dungeon runs
-party_df = pd.DataFrame({'Role':party_roles,'Character.Name':party_names,'Class':party_class_names,'Race':party_races,'Specialization': party_specs,'Region': party_regions})
+party_df = pd.DataFrame({'Role':party_roles,'Character.Name':party_names,'Class':party_class_names,'Race':party_races,'Specialization': party_specs,'Region': party_regions,'Key.Run.ID':party_keyid})
 party_df.head()
 
+for row in full_df['Key.Run.ID']:
+    for row in 
+
+
+party_df['Key.Run.ID'] = full_df['Key.Run.ID']
+
 full_df = full_df.drop(columns=['run.roster'])
+full_df.head()
 
 affix_list = {}
 
@@ -189,6 +192,7 @@ affixes = json_normalize(full_df['Affixes'])
 for index, affix in affixes.iterrows():
     row_list = affix.tolist()
     affix_list[index] = row_list
+
 
 
 current_affixes = []
